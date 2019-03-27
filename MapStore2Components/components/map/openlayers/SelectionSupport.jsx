@@ -7,8 +7,10 @@
  */
 
 const React = require('react');
+const assign = require('object-assign');
 const PropTypes = require('prop-types');
-var ol = require('openlayers');
+const ol = require('openlayers');
+const FeatureStyles = require('./FeatureStyles');
 
 class SelectionSupport extends React.Component {
     static propTypes = {
@@ -28,6 +30,14 @@ class SelectionSupport extends React.Component {
         if (!newProps.selection.geomType) {
             this.removeDrawInteraction();
         }
+        if(newProps.selection.reset) {
+            this.removeDrawInteraction();
+            this.props.changeSelectionState({
+                geomType: this.props.selection.geomType,
+                style: this.props.selection.style,
+                styleOptions: this.props.selection.styleOptions
+            });
+        }
     }
     render() {
         return null;
@@ -42,21 +52,7 @@ class SelectionSupport extends React.Component {
         let vector = new ol.layer.Vector({
             source: source,
             zIndex: 1000000,
-            style: new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(255, 255, 255, 0.2)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#ffcc33',
-                  width: 2
-                }),
-                image: new ol.style.Circle({
-                    radius: 7,
-                    fill: new ol.style.Fill({
-                        color: '#ffcc33'
-                    })
-                })
-            })
+            style: feature => FeatureStyles[newProps.selection.style](feature, newProps.selection.styleOptions)
         });
 
         this.props.map.addLayer(vector);
@@ -64,25 +60,12 @@ class SelectionSupport extends React.Component {
         // create an interaction to draw with
         let draw = new ol.interaction.Draw({
             source: source,
-            condition: (event) => {  return event.pointerEvent.buttons === 1 },
-            type: /** @type {ol.geom.GeometryType} */ newProps.selection.geomType,
-            style: new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(255, 255, 255, 0.2)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: 'rgba(0, 0, 0, 0.5)',
-                    lineDash: [10, 10],
-                    width: 2
-                }),
+            condition: event => event.pointerEvent.buttons === 1,
+            type: newProps.selection.geomType,
+            style: feature => new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: 'rgba(0, 0, 0, 0.7)'
-                    }),
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.2)'
-                    })
+                    fill: new ol.style.Fill({ color: '#3f3fff' })
                 })
             })
         });
@@ -119,8 +102,7 @@ class SelectionSupport extends React.Component {
         }
         var sketchCoords = this.sketchFeature.getGeometry().getCoordinates();
 
-        let newSelectionState = {
-            geomType: this.props.selection.geomType,
+        let newSelectionState = {...this.props.selection,
             point: this.props.selection.geomType === 'Point' ?
                 [sketchCoords[0], sketchCoords[1]] : null,
             line: this.props.selection.geomType === 'LineString' ?
