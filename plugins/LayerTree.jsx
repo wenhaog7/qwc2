@@ -159,7 +159,7 @@ class LayerTree extends React.Component {
                 <div className={classnames(itemclasses)}>
                     <Icon className="layertree-item-expander" icon={expanderstate} onClick={() => this.groupExpandendToggled(layer, path, group.expanded)} />
                     <Icon className="layertree-item-checkbox" icon={checkboxstate} onClick={() => this.groupToggled(layer, path, visibility, inMutuallyExclusiveGroup)} />
-                    <span className="layertree-item-title" title={group.title}>{group.title}</span>
+                    <span className="layertree-item-title" title={group.title}>{group.title || group.name}</span>
                     <span className="layertree-item-spacer"></span>
                     {allowRemove ? (<Icon className="layertree-item-remove" icon="trash" onClick={() => this.props.removeLayer(layer.id, path)}/>) : null}
                 </div>
