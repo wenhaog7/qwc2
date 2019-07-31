@@ -87,7 +87,7 @@ const ThemeUtils = {
         };
         // Drawing order only makes sense if layer reordering is disabled
         if(ThemeUtils.layerReorderingAllowed(theme) !== true) {
-            assign(layer, {drawingOrder: theme.drawingOrder});
+            layer.drawingOrder = theme.drawingOrder;
         }
         return layer;
     },
