@@ -279,6 +279,18 @@ class Editing extends React.Component {
         // Ensure properties is not null
         feature = assign({}, feature, {properties: feature.properties || {}});
 
+        // Set some default values for fields which are not set
+        const curConfig = this.props.theme.editConfig[this.state.selectedLayer] || {};
+        (curConfig.fields || []).forEach(field => {
+            if(feature.properties[field.name] === undefined) {
+                if(field.type === "boolean" || field.type === "bool") {
+                    feature.properties[field.name] = false;
+                } else if(field.type === "number") {
+                    feature.properties[field.name] = Math.max(0, ((field.constraints || {}).min || 0));
+                }
+            }
+        });
+
         if(this.props.editing.action === "Draw") {
             this.props.iface.addFeature(this.state.selectedLayer, feature, this.props.map.projection, this.commitFinished);
         } else if(this.props.editing.action === "Pick") {
