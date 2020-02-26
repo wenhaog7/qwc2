@@ -282,11 +282,11 @@ class Editing extends React.Component {
         // Set some default values for fields which are not set
         const curConfig = this.props.theme.editConfig[this.state.selectedLayer] || {};
         (curConfig.fields || []).forEach(field => {
-            if(feature.properties[field.name] === undefined) {
+            if(feature.properties[field.id] === undefined) {
                 if(field.type === "boolean" || field.type === "bool") {
-                    feature.properties[field.name] = false;
+                    feature.properties[field.id] = false;
                 } else if(field.type === "number") {
-                    feature.properties[field.name] = Math.max(0, ((field.constraints || {}).min || 0));
+                    feature.properties[field.id] = Math.max(0, ((field.constraints || {}).min || 0));
                 }
             }
         });
