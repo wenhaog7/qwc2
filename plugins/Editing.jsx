@@ -149,7 +149,7 @@ class Editing extends React.Component {
         }
         return (
             <tr key={field.id}>
-                <td>{field.name}:</td>
+                <td title={field.name}>{field.name}:</td>
                 <td>{input}</td>
             </tr>
         );
