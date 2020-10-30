@@ -75,7 +75,8 @@ class BottomBar extends React.Component {
         if (viewertitleLink || termsLink) {
             bottomLinks = (
                 <span className="bottombar-links">
-                    {viewertitleLink}
+                    {/* we can provide DSD home page */}
+                    {/* {viewertitleLink} */}   
                     {viewertitleLink && termsLink ? (<span dangerouslySetInnerHTML={{__html: "&nbsp;|&nbsp;"}}></span>) : null}
                     {termsLink}
                 </span>

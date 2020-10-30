@@ -42,7 +42,7 @@ class TopBar extends React.Component {
         searchOptions: {},
         menuItems: [],
         toolbarItems: [],
-        logoFormat: "svg"
+        logoFormat: "png"
     }
     render() {
         let buttonContents;
