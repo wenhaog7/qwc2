@@ -44,7 +44,7 @@
       "commit": "Salvează",
       "delete": "Șterge",
       "discard": "Renunță",
-      "draw": "Desenează",
+      "draw": "Adaugă",
       "feature": "Entitate",
       "fields": "Câmpuri",
       "layer": "Strat",
@@ -106,7 +106,8 @@
       "visiblefilter": "Filtrează straturile invizibile",
       "separator": "separator",
       "separatortooltip": "Indiciu separator",
-      "zoomtolayer": "Zoom la strat"
+      "zoomtolayer": "Zoom la strat",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "metri",
@@ -162,7 +163,7 @@
       "buffercompute": "Calcul",
       "bufferselectfeature": "Selectați o entitate pentru zonarea tampon",
       "delete": "Elimină",
-      "draw": "Desenează",
+      "draw": "Adaugă",
       "edit": "Modifică",
       "fill": "Interior",
       "freehand": "Mână liberă",
@@ -176,6 +177,9 @@
       "size": "Mărime",
       "text": "Text",
       "width": "Lățime"
+    },
+    "scratchdrawing": {
+      "finish": ""
     },
     "search": {
       "more": "Mai multe...",
@@ -197,6 +201,17 @@
       "placeholder": "Caută locație sau adaugă hartă",
       "places": "Locații",
       "recent": "Căutări recente"
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Via link direct",

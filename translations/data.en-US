@@ -106,7 +106,8 @@
       "visiblefilter": "Filter invisible layers",
       "separator": "Separator",
       "separatortooltip": "Add separator",
-      "zoomtolayer": "Zoom to layer"
+      "zoomtolayer": "Zoom to layer",
+      "transparency": "Trasparency"
     },
     "locate": {
       "metersUnit": "meters",
@@ -177,6 +178,9 @@
       "text": "Text",
       "width": "Width"
     },
+    "scratchdrawing": {
+      "finish": "Finish"
+    },
     "search": {
       "more": "More...",
       "search": "Search",
@@ -197,6 +201,17 @@
       "placeholder": "Search place or add map...",
       "places": "Places",
       "recent": "Recent searches"
+    },
+    "serviceinfo": {
+      "title": "Theme Information",
+      "abstract": "Abstract",
+      "keywords": "Keywords",
+      "onlineResource": "Online resource",
+      "contactPerson": "Contact person",
+      "contactOrganization": "Organization",
+      "contactPosition": "Position",
+      "contactPhone": "Phone",
+      "contactEmail": "Email"
     },
     "share": {
       "directLinkTitle": "Via a direct link",

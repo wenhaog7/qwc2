@@ -106,7 +106,8 @@
       "visiblefilter": "",
       "separator": "",
       "separatortooltip": "",
-      "zoomtolayer": ""
+      "zoomtolayer": "",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "méter",
@@ -177,6 +178,9 @@
       "text": "Szöveg",
       "width": "Szélesség"
     },
+    "scratchdrawing": {
+      "finish": ""
+    },
     "search": {
       "more": "Több...",
       "search": "Keresés",
@@ -197,6 +201,17 @@
       "placeholder": "",
       "places": "",
       "recent": ""
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Közvetlen hivatkozással...",

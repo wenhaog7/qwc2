@@ -17,12 +17,14 @@ const FileSaver = require('file-saver');
 const Message = require('../components/I18N/Message');
 const {LayerRole, changeLayerProperty, removeLayer, reorderLayer, setSwipe, addLayerSeparator} = require('../actions/layers')
 const {setActiveLayerInfo} = require('../actions/layerinfo');
+const {setActiveServiceInfo} = require('../actions/serviceinfo');
 const {toggleMapTips, zoomToExtent} = require('../actions/map');
 const ConfigUtils = require("../utils/ConfigUtils");
 const LocaleUtils = require("../utils/LocaleUtils");
 const Icon = require('../components/Icon');
 const ImportLayer = require('../components/ImportLayer');
 const LayerInfoWindow = require('../components/LayerInfoWindow');
+const ServiceInfoWindow = require('../components/ServiceInfoWindow');
 const {SideBar} = require('../components/SideBar');
 const Spinner = require('../components/Spinner');
 const LayerUtils = require('../utils/LayerUtils');
@@ -65,7 +67,8 @@ class LayerTree extends React.Component {
         infoInSettings: PropTypes.bool,
         showToggleAllLayersCheckbox: PropTypes.bool,
         addLayerSeparator: PropTypes.func,
-        zoomToExtent: PropTypes.func
+        zoomToExtent: PropTypes.func,
+        transparencyIcon: PropTypes.bool
     }
     static defaultProps = {
         layers: [],
@@ -84,7 +87,8 @@ class LayerTree extends React.Component {
         enableLegendPrint: true,
         enableVisibleFilter: true,
         infoInSettings: true,
-        showToggleAllLayersCheckbox: true
+        showToggleAllLayersCheckbox: true,
+        transparencyIcon: true
     }
     state = {
         activemenu: null,
@@ -146,7 +150,7 @@ class LayerTree extends React.Component {
         }
         let visibility = true;
         let checkboxstate;
-        if(this.props.groupTogglesSublayers) {
+        if(this.props.groupTogglesSublayers && !inMutuallyExclusiveGroup) {
             visibility = subtreevisibility > 0;
             checkboxstate = subtreevisibility === 1 ? 'checked' : subtreevisibility === 0 ? 'unchecked' : 'tristate';
         } else {
@@ -187,7 +191,7 @@ class LayerTree extends React.Component {
             <div className="layertree-item-container" key={group.uuid} data-id={JSON.stringify({layer: layer.uuid, path: path})}>
                 <div className={classnames(itemclasses)}>
                     <Icon className="layertree-item-expander" icon={expanderstate} onClick={() => this.groupExpandedToggled(layer, path, group.expanded)} />
-                    <Icon className="layertree-item-checkbox" icon={checkboxstate} onClick={() => this.itemVisibilityToggled(layer, path, visibility, inMutuallyExclusiveGroup)} />
+                    <Icon className="layertree-item-checkbox" icon={checkboxstate} onClick={() => this.itemVisibilityToggled(layer, path, visibility)} />
                     <span className="layertree-item-title" title={group.title}>{group.title}</span>
                     <span className="layertree-item-spacer"></span>
                     {allowReordering ? (<Icon className={cogclasses} icon="cog" onClick={() => this.layerMenuToggled(group.uuid)}/>) : null}
@@ -244,7 +248,7 @@ class LayerTree extends React.Component {
                 <div className="layertree-item-edit-frame" style={{marginRight: allowRemove ? '1.75em' : 0}}>
                     <div className="layertree-item-edit-items">
                         {zoomToLayerButton}
-                        <Icon icon="transparency" />
+                        {this.props.transparencyIcon ? (<Icon icon="transparency" />) : (<Message msgId="layertree.transparency" />)}
                         <input className="layertree-item-transparency-slider" type="range" min="0" max="255" step="1" defaultValue={255-sublayer.opacity} onMouseUp={(ev) => this.layerTransparencyChanged(layer, path, ev.target.value)} onTouchEnd={(ev) => this.layerTransparencyChanged(layer, path, ev.target.value)} />
                         {reorderButtons}
                         {this.props.infoInSettings ? infoButton : null}
@@ -256,7 +260,7 @@ class LayerTree extends React.Component {
         let legendicon = null;
         if(this.props.showLegendIcons) {
             if(layer.legendUrl) {
-                let request = layer.legendUrl + (layer.legendUrl.indexOf('?') === -1 ? '?' : '&') + "SERVICE=WMS&REQUEST=GetLegendGraphic&VERSION=" + (layer.version || "1.3.0") + "&FORMAT=image/png&LAYER=" + sublayer.name;
+                let request = layer.legendUrl + (layer.legendUrl.indexOf('?') === -1 ? '?' : '&') + "SERVICE=WMS&REQUEST=GetLegendGraphic&VERSION=" + (layer.version || "1.3.0") + "&FORMAT=image/png&LAYER=" + encodeURIComponent(sublayer.name);
                 legendicon = (<img className="layertree-item-legend-thumbnail" src={request + "&TYPE=thumbnail"} onMouseOver={ev => this.showLegendTooltip(ev, request)} onMouseOut={this.hideLegendTooltip} onTouchStart={ev => this.showLegendTooltip(ev, request)} />);
             } else if(layer.color) {
                 legendicon = (<span className="layertree-item-legend-coloricon" style={{backgroundColor: layer.color}} />);
@@ -268,7 +272,7 @@ class LayerTree extends React.Component {
         } else if(layer.type === "separator") {
             checkbox = null;
         } else {
-            checkbox = (<Icon className="layertree-item-checkbox" icon={checkboxstate} onClick={() => this.itemVisibilityToggled(layer, path, sublayer.visibility, inMutuallyExclusiveGroup)} />);
+            checkbox = (<Icon className="layertree-item-checkbox" icon={checkboxstate} onClick={() => this.itemVisibilityToggled(layer, path, sublayer.visibility)} />);
         }
         let title = null;
         if(layer.type === "separator") {
@@ -410,13 +414,15 @@ class LayerTree extends React.Component {
             let deleteAllLayersTooltip = LocaleUtils.getMessageById(this.context.messages, "layertree.deletealllayers");
             deleteAllLayersIcon = (<Icon title={deleteAllLayersTooltip} className="layertree-delete-legend" icon="trash" onClick={this.deleteAllLayers}/>);
         }
+
         let extraTitlebarContent = null;
-        if(legendPrintIcon || deleteAllLayersIcon || visibleFilterIcon) {
+        if(legendPrintIcon || deleteAllLayersIcon || visibleFilterIcon || infoIcon) {
             extraTitlebarContent = (
                 <span>
                     {legendPrintIcon}
                     {visibleFilterIcon}
                     {deleteAllLayersIcon}
+                    <Icon className="layertree-theme-metadata" icon="info-sign" onClick={() => this.props.setActiveServiceInfo(this.props.theme)}/>
                 </span>
             );
         }
@@ -442,6 +448,7 @@ class LayerTree extends React.Component {
                 </SideBar>
                 {legendTooltip}
                 <LayerInfoWindow windowSize={this.props.layerInfoWindowSize} bboxDependentLegend={this.props.bboxDependentLegend} />
+                <ServiceInfoWindow windowSize={this.props.layerInfoWindowSize} />
             </div>
         );
     }
@@ -477,7 +484,7 @@ class LayerTree extends React.Component {
     groupExpandedToggled = (layer, grouppath, oldexpanded) => {
         this.props.changeLayerProperty(layer.uuid, "expanded", !oldexpanded, grouppath);
     }
-    itemVisibilityToggled = (layer, grouppath, oldvisibility, inMutuallyExclusiveGroup) => {
+    itemVisibilityToggled = (layer, grouppath, oldvisibility) => {
         let recurseDirection = null;
         // If item becomes visible, also make parents visible
         if(this.props.groupTogglesSublayers) {
@@ -611,10 +618,12 @@ module.exports = {
         toggleMapTips: toggleMapTips,
         setSwipe: setSwipe,
         setActiveLayerInfo: setActiveLayerInfo,
+        setActiveServiceInfo: setActiveServiceInfo,
         zoomToExtent: zoomToExtent
     })(LayerTree),
     reducers: {
         layers: require('../reducers/layers'),
         layerinfo: require('../reducers/layerinfo'),
+        serviceinfo: require('../reducers/serviceinfo')
     }
 };

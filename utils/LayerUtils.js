@@ -120,7 +120,7 @@ const LayerUtils = {
 
         if(!Array.isArray(layer.sublayers)) {
             return {
-                params: assign({}, layer.params || {LAYERS: layer.name}, {MAP: query.map || query.MAP}),
+                params: assign({}, layer.params || {LAYERS: layer.name}, {MAP: query.map || query.MAP || (layer.params || {}).map || (layer.params || {}).MAP}),
                 queryLayers: layer.queryable ? [layer.name] : []
             };
         }
@@ -427,18 +427,15 @@ const LayerUtils = {
         return LayerUtils.implodeLayers(exploded);
     },
     ensureMutuallyExclusive(group) {
-        if(group.sublayers) {
-            let visibleChild = null;
-            for(let child of group.sublayers) {
-                if(!visibleChild && child.visibility) {
-                    visibleChild = child;
-                } else if(group.mutuallyExclusive && visibleChild) {
-                    child.visibility = false;
+        if(!isEmpty(group.sublayers)) {
+            if(group.mutuallyExclusive) {
+                let visibleSublayer = group.sublayers.find(sublayer => sublayer.visibility === true) || group.sublayers[0];
+                for(let sublayer of group.sublayers) {
+                    sublayer.visibility = sublayer === visibleSublayer;
                 }
-                LayerUtils.ensureMutuallyExclusive(child);
             }
-            if(group.mutuallyExclusive && !visibleChild) {
-                group.sublayers[0].visibility = true;
+            for(let sublayer of group.sublayers) {
+                LayerUtils.ensureMutuallyExclusive(sublayer);
             }
         }
     },

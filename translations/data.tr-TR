@@ -106,7 +106,8 @@
       "visiblefilter": "Görünmeyen katmanları filtrele",
       "separator": "Ayırıcı",
       "separatortooltip": "Ayırıcı ekle",
-      "zoomtolayer": "Katman sınırlarına yaklaş"
+      "zoomtolayer": "Katman sınırlarına yaklaş",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "metre",
@@ -177,6 +178,9 @@
       "text": "Metin",
       "width": "Genişlik"
     },
+    "scratchdrawing": {
+      "finish": ""
+    },
     "search": {
       "more": "Daha fazla...",
       "search": "Ara",
@@ -197,6 +201,17 @@
       "placeholder": "Bir yer ara ya da harita ekle...",
       "places": "Yerler",
       "recent": "Son aramalar"
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Doğrudan bağlantı yolu ile",

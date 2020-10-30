@@ -106,7 +106,8 @@
       "visiblefilter": "",
       "separator": "",
       "separatortooltip": "",
-      "zoomtolayer": ""
+      "zoomtolayer": "",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "metry",
@@ -177,6 +178,9 @@
       "text": "Text",
       "width": "Šířka"
     },
+    "scratchdrawing": {
+      "finish": ""
+    },
     "search": {
       "more": "Více...",
       "search": "Hledat",
@@ -197,6 +201,17 @@
       "placeholder": "",
       "places": "",
       "recent": ""
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Přes přímé spojení",

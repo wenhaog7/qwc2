@@ -43,6 +43,7 @@ class Identify extends React.Component {
         initiallyDocked: PropTypes.bool,
         params: PropTypes.object,
         attributeCalculator: PropTypes.func,
+        attributeTransform: PropTypes.func,
         featureInfoReturnsLayerName: PropTypes.bool,
         removeLayer: PropTypes.func
     }
@@ -60,7 +61,6 @@ class Identify extends React.Component {
         if (point || clickFeature) {
             // Remove any search selection layer to avoid confusion
             this.props.removeLayer("searchselection");
-            this.props.purgeResults();
 
             let queryableLayers = [];
             if(point) {
@@ -111,12 +111,14 @@ class Identify extends React.Component {
         if (props.enabled && props.clickFeature && props.clickFeature.feature === 'searchmarker' && props.clickFeature.geometry) {
             if (this.props.clickFeature !== props.clickFeature)
             {
+                this.props.purgeResults();
                 return props.clickFeature.geometry;
             }
         }
-        if (props.enabled && props.clickFeature&& props.clickFeature.coordinate) {
+        if (props.enabled && props.clickFeature && props.clickFeature.coordinate) {
             if (!this.props.clickFeature || this.props.clickFeature.coordinate !== props.clickFeature.coordinate)
             {
+                this.props.purgeResults();
                 return props.clickFeature.coordinate;
             }
         }
@@ -154,6 +156,7 @@ class Identify extends React.Component {
                 longAttributesDisplay={this.props.longAttributesDisplay}
                 displayResultTree={this.props.displayResultTree}
                 attributeCalculator={this.props.attributeCalculator}
+                attributeTransform={this.props.attributeTransform}
                 initialWidth={this.props.initialWidth}
                 initialHeight={this.props.initialHeight}
                 initiallyDocked={this.props.initiallyDocked}

@@ -106,7 +106,8 @@
       "visiblefilter": "",
       "separator": "",
       "separatortooltip": "",
-      "zoomtolayer": ""
+      "zoomtolayer": "",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "mètre",
@@ -177,6 +178,9 @@
       "text": "Texte",
       "width": "Largeur"
     },
+    "scratchdrawing": {
+      "finish": ""
+    },
     "search": {
       "more": "Plus...",
       "search": "Chercher",
@@ -197,6 +201,17 @@
       "placeholder": "",
       "places": "",
       "recent": ""
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Via un lien direct",

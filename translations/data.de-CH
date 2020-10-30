@@ -106,7 +106,8 @@
       "visiblefilter": "Unsichtbare Ebenen filtern",
       "separator": "Separator",
       "separatortooltip": "Separator hinzufügen",
-      "zoomtolayer": ""
+      "zoomtolayer": "Auf Layer zoomen",
+      "transparency": "Transparenz"
     },
     "locate": {
       "metersUnit": "Meter",
@@ -177,6 +178,9 @@
       "text": "Text",
       "width": "Breite"
     },
+    "scratchdrawing": {
+      "finish": "Abschliessen"
+    },
     "search": {
       "more": "Mehr...",
       "search": "Suchen",
@@ -198,6 +202,17 @@
       "places": "Orte",
       "recent": "Zuletzt gesucht"
     },
+    "serviceinfo": {
+      "title": "Informationen zum Thema",
+      "abstract": "Zusammenfassung",
+      "keywords": "Schlüsselwörter",
+      "onlineResource": "Online Ressource",
+      "contactPerson": "Kontaktperson",
+      "contactOrganization": "Organisation",
+      "contactPosition": "Stelle",
+      "contactPhone": "Telefon",
+      "contactEmail": "Email"
+    },
     "share": {
       "directLinkTitle": "Über einen direkten Link",
       "generatingpermalink": "Permalink wird erzeugt",
@@ -211,14 +226,14 @@
       "background": "Hintergrundkarte wechseln"
     },
     "themelayerslist": {
-      "addlayer": "",
-      "addlayerstotheme": "",
-      "addselectedlayers": ""
+      "addlayer": "Layer hinzufügen",
+      "addlayerstotheme": "Ebenen der Karte hinzufügen",
+      "addselectedlayers": "Selektierte Ebenen hinzufügen"
     },
     "themeswitcher": {
       "filter": "Filter",
       "addtotheme": "Dem aktuellen Thema hinzufügen",
-      "addlayerstotheme": "",
+      "addlayerstotheme": "Ebenen der Karte hinzufügen",
       "match": {
         "title": "Titel",
         "keywords": "Schlüsselwörter",

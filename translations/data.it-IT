@@ -66,7 +66,7 @@
       "querying": "Caricando...",
       "noresults": "Nessun risultato",
       "export": "Esporta",
-      "exportformat": "",
+      "exportformat": "Formato d'esportazione",
       "featureReport": "Oggetto formulario",
       "noattributes": "Nessun attributo",
       "title": "Titolo",
@@ -106,7 +106,8 @@
       "visiblefilter": "Filtra livelli non visibili",
       "separator": "Separatore",
       "separatortooltip": "Aggiungi separatore",
-      "zoomtolayer": "Zoom a tutto il livello"
+      "zoomtolayer": "Zoom a tutto il livello",
+      "transparency": "Trasparenza"
     },
     "locate": {
       "metersUnit": "metri",
@@ -177,6 +178,9 @@
       "text": "Testo",
       "width": "Larghezza"
     },
+    "scratchdrawing": {
+      "finish": "Finito"
+    },
     "search": {
       "more": "Altri risultati",
       "search": "Cerca",
@@ -198,6 +202,17 @@
       "places": "Luoghi",
       "recent": "Ricerche recenti"
     },
+    "serviceinfo": {
+      "title": "Informazioni sul tema",
+      "abstract": "Riassunto",
+      "keywords": "Parole chiavi",
+      "onlineResource": "Risorsa online",
+      "contactPerson": "Persona di contatto",
+      "contactOrganization": "Organizzazione",
+      "contactPosition": "Posizione",
+      "contactPhone": "Telefono",
+      "contactEmail": "Email"
+    },
     "share": {
       "directLinkTitle": "Collegamento diretto",
       "generatingpermalink": "Sto generando il permalink",
@@ -211,14 +226,14 @@
       "background": "Cambia sfondo"
     },
     "themelayerslist": {
-      "addlayer": "",
-      "addlayerstotheme": "",
-      "addselectedlayers": ""
+      "addlayer": "Aggiungi layer",
+      "addlayerstotheme": "Aggiungi layer alla mappa corrente",
+      "addselectedlayers": "Aggiungi i layer selezionati"
     },
     "themeswitcher": {
       "filter": "Filtra...",
       "addtotheme": "Aggiungere al tema corrente",
-      "addlayerstotheme": "",
+      "addlayerstotheme": "Aggiungi layer alla mappa corrente",
       "match": {
         "title": "Titolo",
         "keywords": "Parole chiavi",

@@ -41,6 +41,7 @@ class IdentifyViewer extends React.Component {
         longAttributesDisplay: PropTypes.oneOf(['ellipsis', 'wrap']),
         displayResultTree: PropTypes.bool,
         attributeCalculator: PropTypes.func,
+        attributeTransform: PropTypes.func,
         setActiveLayerInfo: PropTypes.func,
         onClose: PropTypes.func,
         featureInfoReturnsLayerName: PropTypes.bool,
@@ -54,6 +55,7 @@ class IdentifyViewer extends React.Component {
         longAttributesDisplay: 'ellipsis',
         displayResultTree: true,
         attributeCalculator: (layer, feature) => { return []; },
+        attributeTransform: (name, value, layer, feature) => value,
         featureInfoReturnsLayerName: true
     }
     state = {
@@ -239,8 +241,8 @@ class IdentifyViewer extends React.Component {
         } else if(this.state.exportFormat === 'csv') {
             let csv = "";
             Object.entries(json).forEach(([layerName, features]) => {
-                csv += layerName + "\n";
                 features.forEach(feature => {
+                    csv += layerName + ": " + this.resultDisplayName(layerName, feature) + "\n";
                     Object.entries(feature.properties || {}).forEach(([attrib, value]) => {
                         if(attrib !== "htmlContent") {
                             csv += '\t"' + attrib + '"\t"' + String(value).replace('"', '""') + '"\n';
@@ -361,7 +363,7 @@ class IdentifyViewer extends React.Component {
             if(properties.length === 1 && result.properties["maptip"]) {
                 rows = properties.map(attrib =>
                     <tr key={attrib}>
-                        <td className="identify-attr-value">{this.attribValue(result.properties[attrib])}</td>
+                        <td className="identify-attr-value">{this.attribValue(result.properties[attrib], attrib, layer, result)}</td>
                     </tr>
                 );
             } else {
@@ -372,7 +374,7 @@ class IdentifyViewer extends React.Component {
                     return (
                         <tr key={attrib}>
                             <td className={"identify-attr-title " + this.props.longAttributesDisplay}><i>{attrib}</i></td>
-                            <td className={"identify-attr-value " + this.props.longAttributesDisplay}>{this.attribValue(result.properties[attrib])}</td>
+                            <td className={"identify-attr-value " + this.props.longAttributesDisplay}>{this.attribValue(result.properties[attrib], attrib, layer, result)}</td>
                         </tr>
                     );
                 });
@@ -409,7 +411,7 @@ class IdentifyViewer extends React.Component {
                         {featureReportTemplate ? (
                             <tr>
                                 <td className={"identify-attr-title " + this.props.longAttributesDisplay}><i><Message msgId="identify.featureReport" /></i></td>
-                                <td className={"identify-attr-value " + this.props.longAttributesDisplay}><a href={this.getFeatureReportUrl(featureReportTemplate, result)}><Message msgId="identify.link" /></a></td>
+                                <td className={"identify-attr-value " + this.props.longAttributesDisplay}><a target="_blank" href={this.getFeatureReportUrl(featureReportTemplate, result)}><Message msgId="identify.link" /></a></td>
                             </tr>
                         ) : null}
                     </tbody></table>
@@ -521,7 +523,7 @@ class IdentifyViewer extends React.Component {
         }
         // "el.style.background='inherit'": HACK to trigger an additional repaint, since Safari/Chrome on iOS render the element cut off the first time
         return (
-            <ResizeableWindow title="identify.title" icon="info-sign" onClose={this.props.onClose} initialX={0} initialY={0} initiallyDocked={this.props.initiallyDocked} initialWidth={this.props.initialWidth} initialHeight={this.props.initialHeight}>
+            <ResizeableWindow title="identify.title" icon="info-sign" onClose={this.props.onClose} initialX={0} initialY={0} initiallyDocked={this.props.initiallyDocked} initialWidth={this.props.initialWidth} initialHeight={this.props.initialHeight} zIndex={8}>
                 <div className="identify-body" role="body" ref={el => { if(el) el.style.background='inherit'; } }>
                     {body}
                     {haveResults && this.props.enableExport ? (
@@ -625,8 +627,9 @@ class IdentifyViewer extends React.Component {
             this.props.setActiveLayerInfo(matchlayer, matchsublayer)
         }
     }
-    attribValue = (text) => {
+    attribValue = (text, attrName, layer, result) => {
         text = "" + text; // Ensure text is a string
+        text = this.props.attributeTransform(attrName, text, layer, result);
         text = MiscUtils.addLinkAnchors(text);
         return ReactHtmlParser(text, {transform: (node, index) => {
             if(node.name === "a") {

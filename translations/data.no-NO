@@ -106,7 +106,8 @@
       "visiblefilter": "Filtrer usynlige lag",
       "separator": "Separator",
       "separatortooltip": "Legg til separator",
-      "zoomtolayer": "Zoom til lag"
+      "zoomtolayer": "Zoom til lag",
+      "transparency": ""
     },
     "locate": {
       "metersUnit": "meter",
@@ -177,6 +178,9 @@
       "text": "Tekst",
       "width": "Bredde"
     },
+    "scratchdrawing": {
+      "finish": ""
+    },
     "search": {
       "more": "Flere resultater",
       "search": "Søk",
@@ -197,6 +201,17 @@
       "placeholder": "Søk etter steder eller legg til kart",
       "places": "Steder",
       "recent": "Nylige søk"
+    },
+    "serviceinfo": {
+      "title": "",
+      "abstract": "",
+      "keywords": "",
+      "onlineResource": "",
+      "contactPerson": "",
+      "contactOrganization": "",
+      "contactPosition": "",
+      "contactPhone": "",
+      "contactEmail": ""
     },
     "share": {
       "directLinkTitle": "Direktelenke",
